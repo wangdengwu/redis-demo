@@ -1,0 +1,111 @@
+version: "3.9"
+services:
+  cluster1:
+    image: "redis:6.2.6"
+    container_name: "cluster1"
+    restart: always
+    volumes:
+      - "./config:/etc/redis-config"
+    command: ["redis-server","/etc/redis-config/redis-cluster.conf"]
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      cluster:
+        ipv4_address: 172.27.0.11
+    expose:
+      - "6379"
+  cluster2:
+    image: "redis:6.2.6"
+    container_name: "cluster2"
+    restart: always
+    volumes:
+      - "./config:/etc/redis-config"
+    command: ["redis-server","/etc/redis-config/redis-cluster.conf"]
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      cluster:
+        ipv4_address: 172.27.0.12
+    expose:
+      - "6379"
+  cluster3:
+    image: "redis:6.2.6"
+    container_name: "cluster3"
+    restart: always
+    volumes:
+      - "./config:/etc/redis-config"
+    command: ["redis-server","/etc/redis-config/redis-cluster.conf"]
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      cluster:
+        ipv4_address: 172.27.0.13
+    expose:
+      - "6379"
+  cluster4:
+    image: "redis:6.2.6"
+    container_name: "cluster4"
+    restart: always
+    volumes:
+      - "./config:/etc/redis-config"
+    command: ["redis-server","/etc/redis-config/redis-cluster.conf"]
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      cluster:
+        ipv4_address: 172.27.0.14
+    expose:
+      - "6379"
+  cluster5:
+    image: "redis:6.2.6"
+    container_name: "cluster5"
+    restart: always
+    volumes:
+      - "./config:/etc/redis-config"
+    command: ["redis-server","/etc/redis-config/redis-cluster.conf"]
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      cluster:
+        ipv4_address: 172.27.0.15
+    expose:
+      - "6379"
+  cluster6:
+    image: "redis:6.2.6"
+    container_name: "cluster6"
+    restart: always
+    volumes:
+      - "./config:/etc/redis-config"
+    command: ["redis-server","/etc/redis-config/redis-cluster.conf"]
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      cluster:
+        ipv4_address: 172.27.0.16
+    expose:
+      - "6379"
+  create:
+    image: "redis:6.2.6"
+    container_name: "cluster-create"
+    volumes:
+      - "./wait:/wait"
+    command: sh -c "/wait && redis-cli --cluster create 172.27.0.11:6379 172.27.0.12:6379 172.27.0.13:6379 172.27.0.14:6379 172.27.0.15:6379 172.27.0.16:6379 --cluster-replicas 1 --cluster-yes "
+    environment:
+      TZ: Asia/Shanghai
+      WAIT_HOSTS: cluster1:6379,cluster2:6379,cluster3:6379,cluster4:6379,cluster5:6379,cluster6:6379
+    networks:
+      cluster:
+    depends_on:
+      - cluster1
+      - cluster2
+      - cluster3
+      - cluster4
+      - cluster5
+      - cluster6
+networks:
+  cluster:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: "172.27.0.0/16"

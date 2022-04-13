@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  maven:
+    image: "maven:3.8.5-jdk-8-slim"
+    volumes:
+      - "maven-repo:/root/.m2"
+      - "../../:/usr/src/maven"
+      - "../monitor/logs:/opt/logs"
+    working_dir: /usr/src/maven
+    command: mvn test
+    environment:
+      TZ: Asia/Shanghai
+volumes:
+  maven-repo:
