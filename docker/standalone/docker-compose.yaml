@@ -6,7 +6,9 @@ services:
     container_name: "standalone"
     volumes:
       - "./config:/etc/redis-config"
-    command: ["redis-server","/etc/redis-config/redis.conf"]
+      - "./logs:/etc/logs"
+      - "../../src/main/c/:/etc/lib"
+    command: ["redis-server","/etc/redis-config/redis.conf","--port 6379"]
     environment:
       TZ: Asia/Shanghai
     expose:
