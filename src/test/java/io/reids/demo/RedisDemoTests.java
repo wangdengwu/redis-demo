@@ -6,7 +6,6 @@ import io.reids.demo.annotation.Standalone;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.commands.ProtocolCommand;
 import redis.clients.jedis.params.SetParams;
 
 import java.util.Arrays;
@@ -78,7 +77,7 @@ public class RedisDemoTests {
         assertEquals("ziplist", standalone.objectEncoding(zsetKey), "the value encoding should be ziplist");
 
     }
-    
+
     @Test
     @Standalone
     public void test_redis_lua_eval() {
@@ -92,7 +91,7 @@ public class RedisDemoTests {
                 .append("return count                                ");
         Jedis standalone = new Jedis("standalone", 6379);
         Object result = standalone.eval(sb.toString(), (List<String>) Arrays.asList("hello"), (List<String>) Arrays.asList(TEN_SECONDS + ""));
-        assertTrue(Integer.valueOf((String) result) > 0);
+        assertTrue(((Long) result) > 0);
     }
 
     @Test
