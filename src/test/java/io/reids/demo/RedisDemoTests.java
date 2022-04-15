@@ -90,7 +90,7 @@ public class RedisDemoTests {
                 .append("end                                         ")
                 .append("return count                                ");
         Jedis standalone = new Jedis("standalone", 6379);
-        Object result = standalone.eval(sb.toString(), (List<String>) Arrays.asList("hello"), (List<String>) Arrays.asList(TEN_SECONDS + ""));
+        Object result = standalone.eval(sb.toString(), Arrays.asList("hello"), Arrays.asList(TEN_SECONDS + ""));
         assertTrue(((Long) result) > 0);
     }
 
