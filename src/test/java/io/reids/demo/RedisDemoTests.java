@@ -78,25 +78,7 @@ public class RedisDemoTests {
         assertEquals("ziplist", standalone.objectEncoding(zsetKey), "the value encoding should be ziplist");
 
     }
-
-    @Test
-    @Standalone
-    public void test_scan_keys() {
-        Jedis standalone = new Jedis("standalone", 6379);
-        String scan_keys = "scan_keys";
-        standalone.set(scan_keys, scan_keys, TEN_SECONDS_TO_EXPIRE);
-        standalone.moduleLoad("/etc/lib/scankeys.so");
-        Object result = standalone.sendCommand(new ProtocolCommand() {
-            @Override
-            public byte[] getRaw() {
-                return "scan.keys".getBytes();
-            }
-        });
-        if (result instanceof String) {
-            assertTrue(((String) result).contains(scan_keys));
-        }
-    }
-
+    
     @Test
     @Standalone
     public void test_redis_lua_eval() {
